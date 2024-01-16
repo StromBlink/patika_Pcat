@@ -41,7 +41,7 @@ app.get("/Photo/edit/:id", photoController.getEditPhoto);
 app.put("/Photo/:id", photoController.updatePhoto);
 app.delete("/Photo/:id", photoController.deletePhoto);
 app.post('/photos', photoController.addPhoto);
-
+app.get("/page=:pagenumber", photoController.pageNation)
 
 
 app.listen(port, () => {

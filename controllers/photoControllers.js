@@ -4,7 +4,13 @@ const photoModel = require('../models/Photos');
 const photoController = {
     getAllPhotos: async (req, res) => {
         const photos = await photoModel.Photo.find({}).sort('-dateCreated');
-        res.render('index', { photos });
+        const pages = {
+
+            start: 0,
+            count: 6
+        }
+        if (photos.length < 6) { pages.count = photos.length }
+        res.render('index', { photos, pages });
     },
 
     getPhotoById: async (req, res) => {
@@ -62,6 +68,26 @@ const photoController = {
             res.redirect('/');
         });
     },
+
+    pageNation: async (req, res) => {
+
+
+        const pagenumber = parseInt(req.params.pagenumber);
+        if (pagenumber === 1) { return await res.redirect('/'); }
+        else {
+
+            const photos = await photoModel.Photo.find({}).sort('-dateCreated');
+            const pages = {
+
+                start: (pagenumber - 1) * 6,
+                count: pagenumber * 6
+            }
+            if (photos.length < pagenumber * 6) pages.count = photos.length
+            //New Direct
+            res.render('index', { photos, pages });
+        }
+
+    }
 };
 
 module.exports = { photoController };
