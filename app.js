@@ -11,10 +11,10 @@ const { pageController } = require('./controllers/pageController')
 const { Photo } = require('./models/Photos');
 
 const app = express();
-const port = 3000;
+
 
 //Connect DB
-mongoose.connect('mongodb://localhost/pcat-test-db')
+mongoose.connect('mongodb+srv://FERDEM:8yK.5Y.R_reXM$P@atlascluster.qb0qhm7.mongodb.net/pcat-db?retryWrites=true&w=majority').then(() => { console.log('db CONNETCT') }).catch((err) => { console.log(err) })
 
 //MIDDLEWARES
 app.use(express.static('public'));
@@ -43,7 +43,7 @@ app.delete("/Photo/:id", photoController.deletePhoto);
 app.post('/photos', photoController.addPhoto);
 app.get("/page=:pagenumber", photoController.pageNation)
 
-
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Sunucu http://localhost:${port} adresinde çalışıyor`);
 });
